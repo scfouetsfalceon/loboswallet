@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">LobosWallet</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Configuración</string>
+
+    <!-- Etiquetas Generales -->
+    <string name="label_name"    >Nombre   : </string>
+    <string name="label_lastname">Apellido : </string>
+    <string name="label_region"  >Región   : </string>
+    <string name="label_district">Distrito : </string>
+    <string name="label_group"   >Grupo    : </string>
+
+    <string name="label_count">Saldo Final:</string>
+    <string name="label_site">Sitio :</string>
+
+    <!-- Acciones principales -->
+    <string name="action_buy">Cobrar</string>
+    <string name="action_pay">Pagar</string>
+    <string name="action_visit">Visitar</string>
+
+    <string name="image_description">Villalobos Insignia 2015</string>
+    <string name="title_activity_cobrar">Cobrar</string>
+</resources>
