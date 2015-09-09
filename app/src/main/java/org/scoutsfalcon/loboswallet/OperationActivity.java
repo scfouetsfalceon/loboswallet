@@ -16,12 +16,12 @@ import com.google.zxing.integration.android.IntentResult;
 import org.scoutsfalcon.loboswallet.utils.Joven;
 
 
-public class CashActivity extends ActionBarActivity {
+public class OperationActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cash);
+        setContentView(R.layout.activity_operation);
 
         Bundle action = getIntent().getExtras();
         String operation = action.getString("Action");

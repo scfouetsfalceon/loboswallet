@@ -29,12 +29,15 @@
             android:text="@string/action_buy"
             android:id="@+id/btn_buy"
             android:drawableLeft="@drawable/ic_action_account_balance"
+            android:drawablePadding="2dip"
+            android:paddingLeft="6dip"
+            android:paddingRight="6dip"
             android:capitalize="words"
             android:layout_gravity="center_horizontal"
-            android:background="#3F51B5"
+            android:background="#03A9F4"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="20dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -42,31 +45,14 @@
             android:text="@string/action_pay"
             android:id="@+id/btn_pay"
             android:drawableLeft="@drawable/ic_action_shopping_cart"
+            android:drawablePadding="2dip"
+            android:paddingLeft="6dip"
+            android:paddingRight="6dip"
             android:layout_gravity="center_horizontal"
-            android:background="#3F51B5"
+            android:background="#03A9F4"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_visit"
-            android:id="@+id/btn_visit"
-            android:drawableLeft="@drawable/ic_action_visibility"
-            android:layout_gravity="center_horizontal"
-            android:background="#3F51B5"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <!-- <include android:id="@+id/btn_buy"
-        layout="@layout/button_buy" />
-
-        <include android:id="@+id/btn_pay"
-            layout="@layout/button_pay" />
-
-        <include android:id="@+id/btn_visit"
-            layout="@layout/button_visit" /> -->
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 </RelativeLayout>
