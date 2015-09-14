@@ -3,42 +3,69 @@ package org.scoutsfalcon.loboswallet.utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class Joven extends Object {
+    private String code;
     private String name;
     private String lastName;
     private String region;
     private String district;
     private String group;
+    private Integer account;
+    public Boolean sex;
 
-    public Object Joven(JSONObject data) throws JSONException {
-        this.name = data.getString("nombre");
-        this.lastName = data.getString("apellido");
-        this.region = data.getString("region");
-        this.district = data.getString("distrito");
-        this.group = data.getString("grupo");
-
-        return this;
+    public Joven(String code) {
+        this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public Joven(String code, String name, String lastName, String region, String district, String group, Integer account, Boolean sex) {
+    /* public Object Joven(JSONObject data) throws JSONException {
+        code = data.getString("code");
+        name = data.getString("nombre");
+        lastName = data.getString("apellido");
+        region = data.getString("region");
+        district = data.getString("distrito");
+        group = data.getString("grupo");
+        account = data.getInt("saldo");
+        sex = data.getBoolean("sexo");
+
+        return this;*/
+        this.code = code;
+        this.name = name;
+        this.lastName = lastName;
+        this.region = region;
+        this.district = district;
+        this.group = group;
+        this.account = account;
+        this.sex = sex;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getCode() { return code; }
 
-    public String getRegion() {
-        return region;
-    }
+    public Boolean getSex() { return sex; }
 
-    public String getDistrict() {
-        return district;
-    }
+    public String getName() { return name; }
 
-    public String getGroup() {
-        return group;
+    public String getLastName() { return lastName; }
+
+    public String getRegion() { return region; }
+
+    public String getDistrict() { return district; }
+
+    public String getGroup() { return group; }
+
+    public Integer getAccount() { return account; }
+
+    public String getData() {
+        String resultado = "";
+        if (code.isEmpty()) {
+            resultado = "** Estación vacía **";
+        } else {
+            resultado = String.format("%s - %s %s", code, name, lastName);
+        }
+        return resultado;
     }
 
 }

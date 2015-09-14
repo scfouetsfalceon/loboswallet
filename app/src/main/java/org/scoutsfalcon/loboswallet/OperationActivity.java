@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,32 +16,22 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.scoutsfalcon.loboswallet.utils.Joven;
+import org.scoutsfalcon.loboswallet.utils.LobosEstacion;
 
 
 public class OperationActivity extends ActionBarActivity {
+    private Joven joven;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation);
 
-        Bundle action = getIntent().getExtras();
-        String operation = action.getString("Action");
-
         IntentIntegrator.initiateScan(this);
+        setData("123");
 
-        TextView txtCount = (TextView) findViewById(R.id.txt_count);
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
-
-        this.setData("123");
-
-        if (operation.equals(getResources().getString(R.string.action_buy))) {
-            txtCount.setText("30 £");
-        } else {
-            txtCount.setText("20 £");
-        }
-
-        btnSubmit.setText(operation);
+        btnSubmit.setOnClickListener(new ButtonClickListener());
     }
 
     private void setData(String id) {
@@ -48,46 +40,24 @@ public class OperationActivity extends ActionBarActivity {
         TextView txtRegion = (TextView) findViewById(R.id.txt_region);
         TextView txtDistrict = (TextView) findViewById(R.id.txt_district);
         TextView txtGroup = (TextView) findViewById(R.id.txt_group);
+        TextView txtCount = (TextView) findViewById(R.id.txt_count);
 
         String sample = "123";
 
+        // AsyncTask para solicitar datos
         if (sample.equals(id)) {
+
+            joven = new Joven(sample, "Jaro", "Marval", "Falcón", "Paraguaná", "Nazaret", 20, true);
+
             txtName.setText("Jaro");
             txtLastname.setText("Marval");
             txtRegion.setText("Falcón");
             txtDistrict.setText("Paraguaná");
             txtGroup.setText("Nazaret");
+            txtCount.setText("20 £");
         } else {
-            // AsyncTask para solicitar datos
-            Joven joven = new Joven();
-            txtName.setText(joven.getName());
-            txtLastname.setText(joven.getLastName());
-            txtRegion.setText(joven.getRegion());
-            txtDistrict.setText(joven.getDistrict());
-            txtGroup.setText(joven.getGroup());
+
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cash, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -97,21 +67,16 @@ public class OperationActivity extends ActionBarActivity {
             String scanContent = scanningResult.getContents();
 
             if (scanContent != null) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        scanContent, Toast.LENGTH_LONG);
-                toast.show();
+                //Toast toast = Toast.makeText(getApplicationContext(), scanContent, Toast.LENGTH_LONG);
+                //toast.show();
             } else {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_no_scan), Toast.LENGTH_LONG).show();
                 finish();
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "No se pudo escanear nada!", Toast.LENGTH_LONG);
-                toast.show();
             }
 
         } else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_no_scan), Toast.LENGTH_LONG).show();
             finish();
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "No se pudo escanear nada!", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 
@@ -131,6 +96,18 @@ public class OperationActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+        }
+    }
+
+    private class ButtonClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            LobosEstacion lobos = LobosEstacion.getInstance();
+            if ( !lobos.agregar(joven) ) {
+                Toast.makeText(getApplicationContext(), R.string.msg_no_person, Toast.LENGTH_LONG).show();
+            }
+            finish();
         }
     }
 

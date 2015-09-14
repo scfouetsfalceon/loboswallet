@@ -3,56 +3,70 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:id="@+id/relative_layout1">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="org.scoutsfalcon.loboswallet.UserActivity"
+    android:theme="@style/CodeFont" >
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/villalobos_2015"
+        android:contentDescription="@string/image_description"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/estacion"
+        android:layout_below="@+id/imageView"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/villalobos_2015"
-            android:layout_marginBottom="50dp"
-            android:contentDescription="@string/image_description" />
-
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_buy"
-            android:id="@+id/btn_buy"
-            android:drawableLeft="@drawable/ic_action_account_balance"
-            android:drawablePadding="2dip"
-            android:paddingLeft="6dip"
-            android:paddingRight="6dip"
-            android:capitalize="words"
-            android:layout_gravity="center_horizontal"
-            android:background="#03A9F4"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_station"
+            android:layout_weight="2" />
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_pay"
-            android:id="@+id/btn_pay"
-            android:drawableLeft="@drawable/ic_action_shopping_cart"
-            android:drawablePadding="2dip"
-            android:paddingLeft="6dip"
-            android:paddingRight="6dip"
-            android:layout_gravity="center_horizontal"
-            android:background="#03A9F4"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
-
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/txt_station"
+            android:text="@string/msg_nostation"
+            android:layout_weight="8" />
     </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lstView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/estacion"
+        android:headerDividersEnabled="false"
+        android:footerDividersEnabled="false"
+        android:stackFromBottom="false"
+        android:textFilterEnabled="false"
+        android:smoothScrollbar="false" />
+
+    <!-- Floating action button -->
+    <ImageButton style="@style/AppTheme"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:text="@string/action_add"
+        android:id="@+id/button_add"
+        android:src="@drawable/ic_action_person_add"
+        android:background="@drawable/add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/action_add" />
+
+
 </RelativeLayout>

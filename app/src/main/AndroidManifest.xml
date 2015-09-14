@@ -26,8 +26,8 @@
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name=".UserActivity"
-            android:label="@string/title_activity_user" >
+            android:name=".ConfigurationActivity"
+            android:label="@string/title_activity_configuration" >
         </activity>
     </application>
 

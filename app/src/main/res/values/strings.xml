@@ -2,24 +2,40 @@
     <string name="app_name">LobosWallet</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Configuración</string>
 
     <!-- Etiquetas Generales -->
+    <string name="label_station" >Estación : </string>
     <string name="label_name"    >Nombre   : </string>
     <string name="label_lastname">Apellido : </string>
     <string name="label_region"  >Región   : </string>
     <string name="label_district">Distrito : </string>
     <string name="label_group"   >Grupo    : </string>
 
-    <string name="label_count">Saldo Final:</string>
+    <string name="label_count">Saldo:</string>
     <string name="label_site">Sitio :</string>
+    <string name="label_site_limit">Máximo :</string>
 
     <!-- Acciones principales -->
+    <string name="action_add">Agregar</string>
     <string name="action_buy">Cobrar</string>
     <string name="action_pay">Pagar</string>
-    <string name="action_visit">Visitar</string>
+    <string name="action_settings">Configuración</string>
+    <string name="action_save">Guardar</string>
 
     <string name="image_description">Villalobos Insignia 2015</string>
     <string name="title_activity_cobrar">Cobrar</string>
     <string name="title_activity_user">UserActivity</string>
+
+    <!-- Mensajes de la aplicación -->
+    <string name="msg_nostation">No establecida</string>
+    <string name="msg_full">Estación Full</string>
+    <string name="msg_no_person">Ya esta en la lista</string>
+    <string name="msg_no_scan">No se pudo escanear nada!!!</string>
+    <string name="title_activity_configuration">ConfigurationActivity</string>
+
+    <!-- Preferencias -->
+    <string name="pref_name">WalletPreferences</string>
+    <string name="pref_station">estacion</string>
+    <string name="pref_max">maximo</string>
+
 </resources>
