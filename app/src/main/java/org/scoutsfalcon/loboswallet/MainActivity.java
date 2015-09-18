@@ -28,14 +28,20 @@ public class MainActivity extends ActionBarActivity {
     private LobosEstacion lobos = LobosEstacion.getInstance();
     private CustomAdapter adapter;
 
+    private String estation;
+    private Integer maximo;
+    private Boolean tipo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         SharedPreferences pref = getSharedPreferences("WalletPreferences", Context.MODE_PRIVATE);
-        String estation = pref.getString("estacion", getResources().getString(R.string.msg_nostation));
-        Integer maximo = pref.getInt("maximo", 0);
+        estation = pref.getString(getResources().getString(R.string.pref_station), getResources().getString(R.string.msg_nostation));
+        maximo = pref.getInt(getResources().getString(R.string.pref_max), 0);
+        tipo = pref.getBoolean(getResources().getString(R.string.pref_type), false);
 
         ImageButton btnAgregar = (ImageButton)findViewById(R.id.button_add);
         ListView lstView = (ListView)findViewById(R.id.lstView);
@@ -55,8 +61,18 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (tipo) {
+            MenuItem itemCobrar = menu.findItem(R.id.action_buy);
+            itemCobrar.setVisible(false);
+        } else {
+            MenuItem itemPagar = menu.findItem(R.id.action_pay);
+            itemPagar.setVisible(false);
+        }
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

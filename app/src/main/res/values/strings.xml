@@ -14,6 +14,7 @@
     <string name="label_count">Saldo:</string>
     <string name="label_site">Sitio :</string>
     <string name="label_site_limit">Máximo :</string>
+    <string name="label_site_type">Tipo :</string>
 
     <!-- Acciones principales -->
     <string name="action_add">Agregar</string>
@@ -37,5 +38,6 @@
     <string name="pref_name">WalletPreferences</string>
     <string name="pref_station">estacion</string>
     <string name="pref_max">maximo</string>
+    <string name="pref_type">tipo</string>
 
 </resources>
