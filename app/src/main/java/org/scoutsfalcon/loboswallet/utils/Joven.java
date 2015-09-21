@@ -21,17 +21,6 @@ public class Joven extends Object {
     }
 
     public Joven(String code, String name, String lastName, String region, String district, String group, Integer account, Boolean sex) {
-    /* public Object Joven(JSONObject data) throws JSONException {
-        code = data.getString("code");
-        name = data.getString("nombre");
-        lastName = data.getString("apellido");
-        region = data.getString("region");
-        district = data.getString("distrito");
-        group = data.getString("grupo");
-        account = data.getInt("saldo");
-        sex = data.getBoolean("sexo");
-
-        return this;*/
         this.code = code;
         this.name = name;
         this.lastName = lastName;

@@ -9,16 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.R.layout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.scoutsfalcon.loboswallet.utils.CustomAdapter;
+import org.scoutsfalcon.loboswallet.utils.CustomListAdapter;
 import org.scoutsfalcon.loboswallet.utils.LobosEstacion;
 
 import java.util.ArrayList;
@@ -26,7 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
     private LobosEstacion lobos = LobosEstacion.getInstance();
-    private CustomAdapter adapter;
+    private CustomListAdapter adapter;
 
     private String estation;
     private Integer maximo;
@@ -40,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences pref = getSharedPreferences("WalletPreferences", Context.MODE_PRIVATE);
         estation = pref.getString(getResources().getString(R.string.pref_station), getResources().getString(R.string.msg_nostation));
-        maximo = pref.getInt(getResources().getString(R.string.pref_max), 0);
+        maximo = pref.getInt(getResources().getString(R.string.pref_max), 1);
         tipo = pref.getBoolean(getResources().getString(R.string.pref_type), false);
 
         ImageButton btnAgregar = (ImageButton)findViewById(R.id.button_add);
@@ -48,12 +45,21 @@ public class MainActivity extends ActionBarActivity {
 
         TextView lblStation = (TextView)findViewById(R.id.txt_station);
         lblStation.setText(estation);
-        lobos.setMaximo(maximo);
+        //lobos.setMaximo(maximo);
+        lobos.setMaximo(2);
 
-        adapter = new CustomAdapter(getApplicationContext(), lobos);
+        adapter = new CustomListAdapter(getApplicationContext(), lobos);
 
         btnAgregar.setOnClickListener(new ClickButtonListener());
         lstView.setAdapter(adapter);
+        lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected = String.format("Seleccionado %d", position);
+                Toast toast=Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT);
+                toast.show();
+
+            }
+        });
 
     }
 

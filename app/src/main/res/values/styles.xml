@@ -2,11 +2,59 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#0D47A1</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppTheme.ActionBar</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppTheme.PopupMenu</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
     </style>
-    <style name="CodeFont" parent="@android:style/Widget.ListView">
-        <item name="android:textColor">#000000</item>
-        <item name="android:typeface">monospace</item>
+
+    <!-- White text color  -->
+    <color name="actionBarText">#FFFFFF</color>
+    <!-- facebook blue color -->
+    <color name="actionBarBg">#45619D</color>
+
+
+    <style name="ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+        <!-- action bar background -->
+        <item name="background">@color/actionBarBg</item>
+        <!-- action bar elevation -->
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="ThemeOverlay.AppTheme.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- title text color -->
+        <item name="android:textColorPrimary">@color/actionBarText</item>
+        <!-- subtitle text color -->
+        <item name="android:textColorSecondary">@color/actionBarText</item>
+        <!-- action menu item text color -->
+        <item name="actionMenuTextColor">@color/actionBarText</item>
+        <!-- action menu item icon color - only applies to appcompat-v7 icons :( -->
+        <item name="colorControlNormal">@color/actionBarText</item>
+    </style>
+
+    <style name="ThemeOverlay.AppTheme.PopupMenu" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- popup menu background - NEVER "android:background" !!! in themes -->
+        <item name="android:colorBackground">@color/actionBarBg</item>
+        <!-- popup menu item text color -->
+        <item name="android:textColorPrimary">@color/actionBarText</item>
+    </style>
+
+    <style name="Widget.AppTheme.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="android:colorBackground">#0D47A1</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="SpinnerItem" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:textColor">#993399</item>
+        <item name="android:background">@drawable/row</item>
+    </style>
+
+    <style name="SpinnerDropDownItem" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:textColor">#993399</item>
+        <item name="android:background">@drawable/row</item>
+        <item name="android:height">15dp</item>
     </style>
 
 </resources>

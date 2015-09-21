@@ -12,11 +12,11 @@ import org.scoutsfalcon.loboswallet.R;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends ArrayAdapter<Joven> {
+public class CustomListAdapter extends ArrayAdapter<Joven> {
     ArrayList<Joven> data;
     LayoutInflater inflater;
 
-    public CustomAdapter(Context context, ArrayList<Joven> objects) {
+    public CustomListAdapter(Context context, ArrayList<Joven> objects) {
         super(context, -1, objects);
         this.data = objects;
         this.inflater = LayoutInflater.from(context);

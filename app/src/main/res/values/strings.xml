@@ -25,14 +25,13 @@
 
     <string name="image_description">Villalobos Insignia 2015</string>
     <string name="title_activity_cobrar">Cobrar</string>
-    <string name="title_activity_user">UserActivity</string>
 
     <!-- Mensajes de la aplicación -->
     <string name="msg_nostation">No establecida</string>
     <string name="msg_full">Estación Full</string>
     <string name="msg_no_person">Ya esta en la lista</string>
     <string name="msg_no_scan">No se pudo escanear nada!!!</string>
-    <string name="title_activity_configuration">ConfigurationActivity</string>
+    <string name="title_activity_configuration">Configuración</string>
 
     <!-- Preferencias -->
     <string name="pref_name">WalletPreferences</string>
