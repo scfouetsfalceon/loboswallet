@@ -1,6 +1,7 @@
 package org.scoutsfalcon.loboswallet.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,10 @@ public class CustomListAdapter extends ArrayAdapter<Joven> {
         if (current_joven.getCode() != "") {
             if (current_joven.getSex()) {
                 // Varón
+                // icon.setImageResource(R.drawable.ic_action_account_balance);
             } else {
                 // Hembra
+                // icon.setImageResource(R.drawable.ic_action_account_balance);
             }
         }
 

@@ -28,13 +28,15 @@ public class ConfigurationActivity extends ActionBarActivity {
     private TextView txtMaximo;
     private Spinner spinStation;
     private TextView txtTipo;
+    private ArrayList<Estacion> estaciones;
+    private int item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
 
-        ArrayList<Estacion> estaciones = new ArrayList<Estacion>();
+        estaciones = new ArrayList<Estacion>();
         ArrayAdapter<Estacion> adapter = new CustomSpinnerAdapter(getApplicationContext(), R.layout.spinner_row, estaciones);
 
         txtMaximo = (TextView)findViewById(R.id.txt_maximo);
@@ -47,11 +49,9 @@ public class ConfigurationActivity extends ActionBarActivity {
 
         spinStation.setOnItemSelectedListener(new ItemSeleccionado());
         btnGuardar.setOnClickListener(new GuardarListener());
-
-        ConsultaDatos datos = new ConsultaDatos();
+                ConsultaDatos datos = new ConsultaDatos();
         datos.adapter = adapter;
         datos.nombres = estaciones;
-
         datos.activity = this;
 
         datos.execute();
@@ -82,8 +82,10 @@ public class ConfigurationActivity extends ActionBarActivity {
                 for (Estacion item : estaciones) {
                     nombres.add(item);
                 }
+                adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 Toast.makeText(activity, "Error de comunicación con el servidor", Toast.LENGTH_LONG).show();
+                Log.e("HOOO", "TOAST");
                 Log.e("HOOO", e.getMessage());
             } finally {
                 return null;
@@ -97,12 +99,27 @@ public class ConfigurationActivity extends ActionBarActivity {
         }
     }
 
-    class ItemSeleccionado extends Activity implements AdapterView.OnItemSelectedListener {
+    public void setItem(int i) {
+        item = i;
+    }
+
+    public void setEstacion(){
+        Estacion estacion = estaciones.get(item);
+        String maximo =  String.format("%d Personas", estacion.getMaximo());
+        String tipo = "Cobrar";
+        if (estacion.getTipo()) {
+            tipo = "Pagar";
+        }
+        txtMaximo.setText(maximo);
+        txtTipo.setText(tipo);
+    }
+
+    class ItemSeleccionado implements AdapterView.OnItemSelectedListener {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Object item = adapterView.getItemAtPosition(i);
-            Log.i("HOOO", String.format("Select %i", i));
+            setItem(i);
+            setEstacion();
         }
 
         @Override
@@ -116,19 +133,15 @@ public class ConfigurationActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
-            String tipo = txtTipo.toString();
-            Boolean btipo = false;
-
-            if (tipo.equals("Pagar")) {
-                btipo = true;
-            }
-
             SharedPreferences pref = getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString(getResources().getString(R.string.pref_station), spinStation.getSelectedItem().toString());
-            editor.putInt(getResources().getString(R.string.pref_max), Integer.parseInt(txtMaximo.getText().toString()));
-            editor.putBoolean(getResources().getString(R.string.pref_type), btipo);
+            Estacion estacion = estaciones.get(item);
+            editor.putString(getResources().getString(R.string.pref_station), estacion.getNombre());
+            editor.putInt(getResources().getString(R.string.pref_max), estacion.getMaximo());
+            editor.putBoolean(getResources().getString(R.string.pref_type), estacion.getTipo());
             editor.commit();
+
+            finish();
         }
     }
 }

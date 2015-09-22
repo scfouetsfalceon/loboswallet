@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * Created by jamp on 17/09/15.
  */
 public class Estacion {
-    private static String nombre;
-    private static Integer maximo;
-    private static Boolean tipo;
+    private String nombre;
+    private Integer maximo;
+    private Boolean tipo;
 
     public Estacion(String nombre, int maximo, Boolean tipo){
         this.nombre = nombre;
@@ -16,15 +16,15 @@ public class Estacion {
         this.tipo = tipo;
     }
 
-    public static String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public static Integer getMaximo() {
+    public Integer getMaximo() {
         return maximo;
     }
 
-    public static Boolean getTipo() {
+    public Boolean getTipo() {
         return tipo;
     }
 }
