@@ -32,6 +32,10 @@
     <string name="msg_no_person">Ya esta en la lista</string>
     <string name="msg_no_scan">No se pudo escanear nada!!!</string>
     <string name="title_activity_configuration">Configuración</string>
+    <string name="please_wait">Por favor, Espere!!!</string>
+    <string name="loading_stations">Cargando Estaciones</string>
+    <string name="loading_data">Cargando Datos</string>
+    <string name="error_comunication">Error de comunicación con el servidor</string>
 
     <!-- Preferencias -->
     <string name="pref_name">WalletPreferences</string>

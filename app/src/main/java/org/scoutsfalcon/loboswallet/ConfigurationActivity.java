@@ -1,15 +1,12 @@
 package org.scoutsfalcon.loboswallet;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,7 +54,7 @@ public class ConfigurationActivity extends ActionBarActivity {
         datos.execute();
     }
 
-    public class ConsultaDatos extends AsyncTask<Void, Void, Void> {
+    public class ConsultaDatos extends AsyncTask<Void, Void, Boolean> {
         public ArrayAdapter<Estacion> adapter;
         public ArrayList<Estacion> nombres;
         public ConfigurationActivity activity;
@@ -67,7 +64,7 @@ public class ConfigurationActivity extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(activity);
-            pDialog.setMessage("Cargando Estaciones");
+            pDialog.setMessage(getResources().getString(R.string.loading_stations));
             pDialog.setIndeterminate(false);
             //pDialog.setCancelable(true);
 
@@ -75,8 +72,8 @@ public class ConfigurationActivity extends ActionBarActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
-            Log.e("HOOO", "Background");
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = true;
             try {
                 ArrayList<Estacion> estaciones = Comunicacion.appConfiguration();
                 for (Estacion item : estaciones) {
@@ -84,17 +81,17 @@ public class ConfigurationActivity extends ActionBarActivity {
                 }
                 adapter.notifyDataSetChanged();
             } catch (Exception e) {
-                Toast.makeText(activity, "Error de comunicación con el servidor", Toast.LENGTH_LONG).show();
-                Log.e("HOOO", "TOAST");
-                Log.e("HOOO", e.getMessage());
-            } finally {
-                return null;
+                result = false;
             }
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Void s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result) {
+                Toast.makeText(activity, getResources().getString(R.string.error_comunication), Toast.LENGTH_LONG).show();
+            }
             pDialog.dismiss();
         }
     }
@@ -106,9 +103,9 @@ public class ConfigurationActivity extends ActionBarActivity {
     public void setEstacion(){
         Estacion estacion = estaciones.get(item);
         String maximo =  String.format("%d Personas", estacion.getMaximo());
-        String tipo = "Cobrar";
+        String tipo = getResources().getString(R.string.action_buy);
         if (estacion.getTipo()) {
-            tipo = "Pagar";
+            tipo = getResources().getString(R.string.action_pay);
         }
         txtMaximo.setText(maximo);
         txtTipo.setText(tipo);
@@ -124,7 +121,7 @@ public class ConfigurationActivity extends ActionBarActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            Log.i("HOOO", "Nothing Select");
+            // Nada
         }
     }
 
@@ -133,9 +130,11 @@ public class ConfigurationActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
+            Estacion estacion = estaciones.get(item);
+
             SharedPreferences pref = getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
-            Estacion estacion = estaciones.get(item);
+
             editor.putString(getResources().getString(R.string.pref_station), estacion.getNombre());
             editor.putInt(getResources().getString(R.string.pref_max), estacion.getMaximo());
             editor.putBoolean(getResources().getString(R.string.pref_type), estacion.getTipo());
