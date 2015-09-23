@@ -48,7 +48,8 @@ public class ConfigurationActivity extends ActionBarActivity {
 
         spinStation.setOnItemSelectedListener(new ItemSeleccionado());
         btnGuardar.setOnClickListener(new GuardarListener());
-                ConsultaDatos datos = new ConsultaDatos();
+
+        ConsultaDatos datos = new ConsultaDatos();
         datos.adapter = adapter;
         datos.nombres = estaciones;
         datos.activity = this;
@@ -68,7 +69,6 @@ public class ConfigurationActivity extends ActionBarActivity {
             pDialog = new ProgressDialog(activity);
             pDialog.setMessage(getResources().getString(R.string.loading_stations));
             pDialog.setIndeterminate(false);
-            //pDialog.setCancelable(true);
 
             pDialog.show();
         }

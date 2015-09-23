@@ -93,7 +93,7 @@ public class Comunicacion {
         StringBuilder response = null;
 
         try {
-            String location = String.format("%s%s/?id=%s&estacion=%s&salida=json", DOMAIN, "jovenes", id, estacion);
+            String location = String.format("%s%s/%s/?estacion=%s&salida=json", DOMAIN, "jovenes", id, estacion);
             URL url = new URL(location);
             httpConection = (HttpURLConnection) url.openConnection();
             httpConection.setRequestMethod("GET");
@@ -110,7 +110,7 @@ public class Comunicacion {
 
             JSONObject jsonObject = new JSONObject(response.toString());
 
-            String codigo = jsonObject.getString("codigo");
+            String codigo = jsonObject.getString("id");
             String nombres = jsonObject.getString("nombres");
             String apellidos = jsonObject.getString("apellidos");
             Boolean sexo = jsonObject.getBoolean("sexo");
@@ -118,8 +118,6 @@ public class Comunicacion {
             String distrito = jsonObject.getString("distrito");
             String grupo = jsonObject.getString("grupo");
             int saldo = jsonObject.getInt("saldo");
-
-
 
             datos = new Joven(codigo, nombres, apellidos, sexo, region, distrito, grupo, saldo);
 

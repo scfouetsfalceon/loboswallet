@@ -35,12 +35,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton btnAgregar = (ImageButton)findViewById(R.id.button_add);
-        final ListView lstView = (ListView)findViewById(R.id.lstView);
-
-        adapter = new CustomListAdapter(getApplicationContext(), lobos);
-
+        
         btnAgregar.setOnClickListener(new ClickButtonListener());
-        lstView.setAdapter(adapter);
     }
 
     @Override
@@ -55,6 +51,10 @@ public class MainActivity extends ActionBarActivity {
         lblStation.setText(estation);
 
         lobos.setMaximo(maximo);
+
+        final ListView lstView = (ListView)findViewById(R.id.lstView);
+        adapter = new CustomListAdapter(getApplicationContext(), lobos);
+        lstView.setAdapter(adapter);
     }
 
     @Override
