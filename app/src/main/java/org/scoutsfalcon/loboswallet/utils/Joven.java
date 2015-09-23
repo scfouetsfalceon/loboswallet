@@ -20,15 +20,15 @@ public class Joven extends Object {
         this.code = code;
     }
 
-    public Joven(String code, String name, String lastName, String region, String district, String group, Integer account, Boolean sex) {
+    public Joven(String code, String name, String lastName, Boolean sex, String region, String district, String group, Integer account) {
         this.code = code;
         this.name = name;
         this.lastName = lastName;
+        this.sex = sex;
         this.region = region;
         this.district = district;
         this.group = group;
         this.account = account;
-        this.sex = sex;
     }
 
     public String getCode() { return code; }

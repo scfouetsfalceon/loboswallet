@@ -1,11 +1,14 @@
 package org.scoutsfalcon.loboswallet.utils;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.scoutsfalcon.loboswallet.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,8 +36,6 @@ public class Comunicacion {
             URL url = new URL(DOMAIN+"estaciones/?salida=json");
             httpConection = (HttpURLConnection) url.openConnection();
             httpConection.setRequestMethod("GET");
-            //httpConection.setDoOutput(true);
-            //httpConection.setRequestProperty("Accept", "application/json");
             httpConection.connect();
             
             bufferedReader = new BufferedReader(new InputStreamReader(httpConection.getInputStream()));
@@ -53,19 +54,14 @@ public class Comunicacion {
             Estacion estacion = null;
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = (JSONObject) jsonArray.get(i);
-                Log.i("HOOO", jsonObject.toString());
 
+                int id = jsonObject.getInt("id");
                 String nombre = jsonObject.getString("nombre");
                 int maximo = jsonObject.getInt("maximo");
                 Boolean tipo = jsonObject.getBoolean("tipo");
 
-                estacion = new Estacion(nombre, maximo, tipo);
-                Log.i("HOOO", estacion.getNombre());
+                estacion = new Estacion(id, nombre, maximo, tipo);
                 estaciones.add(estacion);
-            }
-
-            for (Estacion item : estaciones) {
-                Log.i("HOOO", item.getNombre());
             }
 
         } catch (MalformedURLException e) {
@@ -87,5 +83,64 @@ public class Comunicacion {
         }
 
         return estaciones;
+    }
+
+    public static Joven datosJovenes(String id, String estacion) {
+
+        Joven datos = null;
+        HttpURLConnection httpConection = null;
+        BufferedReader bufferedReader = null;
+        StringBuilder response = null;
+
+        try {
+            String location = String.format("%s%s/?id=%s&estacion=%s&salida=json", DOMAIN, "jovenes", id, estacion);
+            URL url = new URL(location);
+            httpConection = (HttpURLConnection) url.openConnection();
+            httpConection.setRequestMethod("GET");
+            httpConection.connect();
+
+            bufferedReader = new BufferedReader(new InputStreamReader(httpConection.getInputStream()));
+
+            response = new StringBuilder();
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                response.append(line);
+            }
+
+            JSONObject jsonObject = new JSONObject(response.toString());
+
+            String codigo = jsonObject.getString("codigo");
+            String nombres = jsonObject.getString("nombres");
+            String apellidos = jsonObject.getString("apellidos");
+            Boolean sexo = jsonObject.getBoolean("sexo");
+            String region = jsonObject.getString("region");
+            String distrito = jsonObject.getString("distrito");
+            String grupo = jsonObject.getString("grupo");
+            int saldo = jsonObject.getInt("saldo");
+
+
+
+            datos = new Joven(codigo, nombres, apellidos, sexo, region, distrito, grupo, saldo);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        } finally {
+            if(httpConection != null) {
+                httpConection.disconnect();
+            }
+        }
+
+        return datos;
     }
 }
