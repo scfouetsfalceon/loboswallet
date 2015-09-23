@@ -43,12 +43,21 @@ public class LobosEstacion extends ArrayList<Joven> {
             clear();
             vacio = false;
         }
-        if (size() != maxLobos && !contains(joven)) {
+        if (size() != maxLobos && !existe(joven)) {
             add(joven);
             salida = true;
         }
 
         return salida;
+    }
+
+    public Boolean existe(Joven joven) {
+        for (Joven item: this) {
+            if (item.getCode().equals(joven.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void vaciar() {
