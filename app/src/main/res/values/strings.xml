@@ -39,6 +39,7 @@
 
     <!-- Preferencias -->
     <string name="pref_name">WalletPreferences</string>
+    <string name="pref_station_id">id</string>
     <string name="pref_station">estacion</string>
     <string name="pref_max">maximo</string>
     <string name="pref_type">tipo</string>

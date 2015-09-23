@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 
 public class ConfigurationActivity extends ActionBarActivity {
+    private TextView txtId;
     private TextView txtMaximo;
     private Spinner spinStation;
     private TextView txtTipo;
@@ -36,6 +37,7 @@ public class ConfigurationActivity extends ActionBarActivity {
         estaciones = new ArrayList<Estacion>();
         ArrayAdapter<Estacion> adapter = new CustomSpinnerAdapter(getApplicationContext(), R.layout.spinner_row, estaciones);
 
+        txtId = (TextView)findViewById(R.id.txt_id);
         txtMaximo = (TextView)findViewById(R.id.txt_maximo);
         spinStation = (Spinner)findViewById(R.id.spn_station);
         txtTipo = (TextView)findViewById(R.id.txt_type);
@@ -102,11 +104,13 @@ public class ConfigurationActivity extends ActionBarActivity {
 
     public void setEstacion(){
         Estacion estacion = estaciones.get(item);
+        String id = estacion.getId();
         String maximo =  String.format("%d Personas", estacion.getMaximo());
         String tipo = getResources().getString(R.string.action_buy);
         if (estacion.getTipo()) {
             tipo = getResources().getString(R.string.action_pay);
         }
+        txtId.setText(id);
         txtMaximo.setText(maximo);
         txtTipo.setText(tipo);
     }
@@ -135,6 +139,7 @@ public class ConfigurationActivity extends ActionBarActivity {
             SharedPreferences pref = getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
 
+            editor.putString(getResources().getString(R.string.pref_station_id), estacion.getId());
             editor.putString(getResources().getString(R.string.pref_station), estacion.getNombre());
             editor.putInt(getResources().getString(R.string.pref_max), estacion.getMaximo());
             editor.putBoolean(getResources().getString(R.string.pref_type), estacion.getTipo());
