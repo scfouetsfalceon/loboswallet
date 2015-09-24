@@ -1,8 +1,10 @@
 package org.scoutsfalcon.loboswallet;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.scoutsfalcon.loboswallet.utils.Comunicacion;
 import org.scoutsfalcon.loboswallet.utils.CustomListAdapter;
+import org.scoutsfalcon.loboswallet.utils.Joven;
 import org.scoutsfalcon.loboswallet.utils.LobosEstacion;
 
 import java.util.ArrayList;
@@ -23,6 +27,9 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
     private LobosEstacion lobos = LobosEstacion.getInstance();
     private CustomListAdapter adapter;
+
+    private MenuItem itemCobrar = null;
+    private MenuItem itemPagar;
 
     private String estation;
     private Integer maximo;
@@ -35,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton btnAgregar = (ImageButton)findViewById(R.id.button_add);
-        
+
         btnAgregar.setOnClickListener(new ClickButtonListener());
     }
 
@@ -52,6 +59,16 @@ public class MainActivity extends ActionBarActivity {
 
         lobos.setMaximo(maximo);
 
+        if (itemCobrar != null) {
+            if (tipo) {
+                itemPagar.setVisible(true);
+                itemCobrar.setVisible(false);
+            } else {
+                itemPagar.setVisible(false);
+                itemCobrar.setVisible(true);
+            }
+        }
+
         final ListView lstView = (ListView)findViewById(R.id.lstView);
         adapter = new CustomListAdapter(getApplicationContext(), lobos);
         lstView.setAdapter(adapter);
@@ -59,29 +76,23 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        itemCobrar = menu.findItem(R.id.action_buy);
+        itemPagar = menu.findItem(R.id.action_pay);
         if (tipo) {
-            MenuItem itemCobrar = menu.findItem(R.id.action_buy);
             itemCobrar.setVisible(false);
         } else {
-            MenuItem itemPagar = menu.findItem(R.id.action_pay);
             itemPagar.setVisible(false);
         }
+
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent config = new Intent(getApplicationContext(), ConfigurationActivity.class);
             startActivity(config);
@@ -104,7 +115,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     class ClickButtonListener implements View.OnClickListener {
-
         @Override
         public void onClick(View view) {
             if (lobos.isFull()) {
