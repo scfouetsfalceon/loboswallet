@@ -62,6 +62,7 @@ public class LobosEstacion extends ArrayList<Joven> {
 
     public void vaciar() {
         clear();
+        vacio = true;
         add(inicial);
     }
 

@@ -15,7 +15,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
 
-        ArrayList<Estacion> resultado = Comunicacion.appConfiguration();
+        ArrayList<Estacion> resultado = Comunicacion.ConfigurarAplicacion();
         assertEquals(2, resultado.size());
 
     }

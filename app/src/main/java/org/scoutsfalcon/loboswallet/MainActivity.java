@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +17,7 @@ import android.widget.Toast;
 
 import org.scoutsfalcon.loboswallet.utils.Comunicacion;
 import org.scoutsfalcon.loboswallet.utils.CustomListAdapter;
-import org.scoutsfalcon.loboswallet.utils.Joven;
 import org.scoutsfalcon.loboswallet.utils.LobosEstacion;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -97,21 +93,67 @@ public class MainActivity extends ActionBarActivity {
             Intent config = new Intent(getApplicationContext(), ConfigurationActivity.class);
             startActivity(config);
             return true;
-        } else if (id == R.id.action_buy) {
-            ArrayList<String> array = lobos.getIds();
-            for (String ids : array) {
-                Log.i("HOO", ids);
+        } else {
+            OperationBank operationBank = new OperationBank();
+            operationBank.activity = this;
+            operationBank.adapter = adapter;
+            operationBank.station = estation;
+            operationBank.data = lobos;
+            if (id == R.id.action_buy) {
+                operationBank.operation = getResources().getString(R.string.action_buy);
+                operationBank.execute();
+                return true;
+            } else if (id == R.id.action_pay) {
+                operationBank.operation = getResources().getString(R.string.action_pay);
+                operationBank.execute();
+                return true;
             }
-            return true;
-        } else if(id == R.id.action_pay) {
-            ArrayList<String> array = lobos.getIds();
-            for (String ids : array) {
-                Log.i("HOO", ids);
-            }
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class OperationBank extends AsyncTask<Void, Void, Boolean> {
+        private ProgressDialog pDialog;
+        public MainActivity activity;
+        public CustomListAdapter adapter;
+        public String operation;
+        public LobosEstacion data;
+        public String station;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(activity);
+            pDialog.setMessage(getResources().getString(R.string.loading_data));
+            pDialog.setIndeterminate(false);
+
+            pDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            Boolean result;
+            try {
+                result = Comunicacion.OperacionesBancarias(operation, data.getIds(), station);
+            } catch (Exception e) {
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result) {
+                Toast.makeText(activity, getResources().getString(R.string.error_comunication), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(activity, getResources().getString(R.string.msg_account_ok), Toast.LENGTH_LONG).show();
+                data.vaciar();
+                adapter.notifyDataSetChanged();
+            }
+            pDialog.dismiss();
+        }
     }
 
     class ClickButtonListener implements View.OnClickListener {

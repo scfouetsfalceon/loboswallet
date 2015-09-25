@@ -101,7 +101,7 @@ public class OperationActivity extends ActionBarActivity {
         protected Boolean doInBackground(Void... voids) {
             Boolean resultado = false;
             try {
-                Joven datos = Comunicacion.datosJovenes(id, estacion);
+                Joven datos = Comunicacion.DatosJovenes(id, estacion);
                 setData(datos);
                 resultado = true;
             } catch (Exception e) {

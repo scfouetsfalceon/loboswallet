@@ -77,7 +77,7 @@ public class ConfigurationActivity extends ActionBarActivity {
         protected Boolean doInBackground(Void... params) {
             Boolean result = true;
             try {
-                ArrayList<Estacion> estaciones = Comunicacion.appConfiguration();
+                ArrayList<Estacion> estaciones = Comunicacion.ConfigurarAplicacion();
                 for (Estacion item : estaciones) {
                     nombres.add(item);
                 }
