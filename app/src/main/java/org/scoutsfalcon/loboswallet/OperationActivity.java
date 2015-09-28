@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import org.scoutsfalcon.loboswallet.utils.LobosEstacion;
 public class OperationActivity extends ActionBarActivity {
     private Joven joven;
     private String estacion;
+    public static final String TAG = "Comunicacion";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class OperationActivity extends ActionBarActivity {
         txtLastname.setText(datos.getLastName());
         txtRegion.setText(datos.getRegion());
         txtDistrict.setText(datos.getDistrict());
-        txtGroup.setText(datos.getDistrict());
+        txtGroup.setText(datos.getGroup());
         txtCount.setText(String.format("%d £", datos.getAccount()));
     }
 
@@ -81,7 +83,7 @@ public class OperationActivity extends ActionBarActivity {
         }
     }
 
-    public class DatosJoven extends AsyncTask<Void, Void, Boolean> {
+    public class DatosJoven extends AsyncTask<Void, Void, Joven> {
         private ProgressDialog pDialog;
         public OperationActivity activity;
         public String id;
@@ -98,24 +100,26 @@ public class OperationActivity extends ActionBarActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
-            Boolean resultado = false;
+        protected Joven doInBackground(Void... voids) {
+            Joven resultado = null;
             try {
-                Joven datos = Comunicacion.DatosJovenes(id, estacion);
-                setData(datos);
-                resultado = true;
+                resultado = Comunicacion.DatosJovenes(id, estacion);
             } catch (Exception e) {
-                resultado = false;
+                Log.e(TAG, e.getMessage());
             }
             return resultado;
         }
 
         @Override
-        protected void onPostExecute(Boolean resultado) {
+        protected void onPostExecute(Joven resultado) {
             super.onPostExecute(resultado);
-            if (!resultado) {
+            if (resultado == null) {
                 Toast.makeText(activity, getResources().getString(R.string.error_comunication), Toast.LENGTH_LONG).show();
+                return;
             }
+
+            setData(resultado);
+
             pDialog.dismiss();
         }
     }

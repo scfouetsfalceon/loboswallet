@@ -68,7 +68,7 @@ public class LobosEstacion extends ArrayList<Joven> {
 
     public boolean isFull() {
         boolean salida = false;
-        if (size() < maxLobos) {
+        if (vacio || size() < maxLobos) {
             salida = true;
         }
         return !salida;

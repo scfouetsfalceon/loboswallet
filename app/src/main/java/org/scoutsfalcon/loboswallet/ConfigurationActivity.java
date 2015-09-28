@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ public class ConfigurationActivity extends ActionBarActivity {
     private TextView txtTipo;
     private ArrayList<Estacion> estaciones;
     private int item;
+    private final static String TAG = "Comunicacion";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class ConfigurationActivity extends ActionBarActivity {
         datos.execute();
     }
 
-    public class ConsultaDatos extends AsyncTask<Void, Void, Boolean> {
+    public class ConsultaDatos extends AsyncTask<Void, Void, ArrayList<Estacion>> {
         public ArrayAdapter<Estacion> adapter;
         public ArrayList<Estacion> nombres;
         public ConfigurationActivity activity;
@@ -74,26 +76,29 @@ public class ConfigurationActivity extends ActionBarActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            Boolean result = true;
+        protected ArrayList<Estacion> doInBackground(Void... params) {
+            ArrayList<Estacion> result = null;
             try {
-                ArrayList<Estacion> estaciones = Comunicacion.ConfigurarAplicacion();
-                for (Estacion item : estaciones) {
-                    nombres.add(item);
-                }
-                adapter.notifyDataSetChanged();
+                result = Comunicacion.ConfigurarAplicacion();
             } catch (Exception e) {
-                result = false;
+                Log.i(TAG, e.getMessage());
             }
             return result;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(ArrayList<Estacion> result) {
             super.onPostExecute(result);
-            if (!result) {
+            if (result == null) {
                 Toast.makeText(activity, getResources().getString(R.string.error_comunication), Toast.LENGTH_LONG).show();
+                return;
             }
+
+            for (Estacion item : result) {
+                nombres.add(item);
+            }
+            adapter.notifyDataSetChanged();
+
             pDialog.dismiss();
         }
     }
